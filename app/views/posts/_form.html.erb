@@ -1,0 +1,18 @@
+<h1>New Post</h1>
+<%= form_with(model: post, local: true) do |form| %>
+  <% if post.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+      <ul>
+        <% post.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= form.label :caption, "Caption"%> <br>
+  <%= form.text_area :caption %>
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

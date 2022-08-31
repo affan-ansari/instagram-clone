@@ -1,0 +1,8 @@
+<h1>Posts</h1>
+<%# render partial: "post", collection: @posts, spacer_template: "post_ruler" %>
+<% @posts.each do |post| %>
+  <%= render partial: "post",  object: post %>
+  <%= link_to 'Show', post_path(post) %>
+  <%= link_to 'Edit', edit_post_path(post) %>
+  <%= render "post_ruler" %>
+<% end %>

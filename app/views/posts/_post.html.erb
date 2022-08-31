@@ -1,0 +1,10 @@
+<h3>Caption:</h3>
+<%= post.caption %> <br>
+<br>
+<B>Likes: <%= post.likes %></B>
+<%= link_to 'Show', post_path(post) %>
+<%= link_to 'Edit', edit_post_path(post) %>
+<%= link_to 'Destroy', post_path(post),
+            method: :delete,
+            data: { confirm: 'Are you sure?' } %></td>
+<%= render "post_ruler" %>

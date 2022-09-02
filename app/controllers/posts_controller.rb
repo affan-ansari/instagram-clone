@@ -4,10 +4,6 @@ class PostsController < ApplicationController
     @posts = Post.where.not(user: current_user)
   end
 
-  def my_posts
-    @posts = Post.where(user: current_user)
-  end
-
   def new
     @post = Post.new
   end

@@ -1,4 +1,3 @@
-<h1>New Post</h1>
 <%= form_with(model: post, local: true) do |form| %>
   <% if post.errors.any? %>
     <div id="error_explanation">
@@ -11,7 +10,11 @@
     </div>
   <% end %>
   <%= form.label :caption, "Caption"%> <br>
-  <%= form.text_area :caption %>
+  <%= form.text_area :caption %> <br>
+  <% if params['action'] == 'new' %>
+    <%= form.label :images, "Images"%> <br>
+    <%= form.file_field :images, multiple: true %>
+  <% end %>
   <div class="actions">
     <%= form.submit %>
   </div>

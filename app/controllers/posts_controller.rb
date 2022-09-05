@@ -21,7 +21,7 @@ class PostsController < ApplicationController
   def update
     @post = Post.find(params[:id])
 
-    if @post.update(post_params)
+    if @post.update(post_update_params)
       flash[:notice] = 'Post was successfully updated'
       redirect_to @post
     else
@@ -49,5 +49,9 @@ class PostsController < ApplicationController
 
   def post_params
     params.require(:post).permit(:caption, images: [])
+  end
+
+  def post_update_params
+    params.require(:post).permit(:caption)
   end
 end

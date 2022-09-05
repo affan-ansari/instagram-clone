@@ -1,4 +1,13 @@
 <h1>Post: <%= @post.id %></h1>
 <P><%= @post.caption %></P>
 <br>
-<b>Likes: <%= @post.likes %></b>
+<% @post.images.each do |image| %>
+  <%= image_tag(image) %>
+<% end %>
+<b>Likes: <%= @post.likes %></b> <br>
+<%= link_to 'Edit', edit_post_path(@post) %> |
+<% if @post.user == current_user %>
+  <%= link_to 'Back', user_path(current_user) %>
+<% else %>
+  <%= link_to 'Back', posts_path %>
+<% end %>

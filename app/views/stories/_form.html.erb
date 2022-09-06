@@ -1,0 +1,19 @@
+<%= form_with(model: @story, local: true) do |form| %>
+  <% if @story.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@story.errors.count, "error") %> prohibited this story from being saved:</h2>
+      <ul>
+        <% @story.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= form.label :caption, "Caption"%> <br>
+  <%= form.text_area :caption %> <br>
+  <%= form.label :image, "Image"%> <br>
+  <%= form.file_field :image %>
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

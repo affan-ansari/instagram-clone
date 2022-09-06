@@ -1,0 +1,4 @@
+<%= image_tag @story.image.variant(resize: "500x500")
+ %> <br>
+<P><%= @story.caption %></P>
+<%= link_to 'Back', stories_path %>

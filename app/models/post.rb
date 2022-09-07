@@ -2,6 +2,7 @@ class Post < ApplicationRecord
   belongs_to :user
   has_many_attached :images
   validate :validate_images_count, :validate_image_presence, :validate_image_type
+  has_many :comments
 
   private
 

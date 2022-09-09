@@ -32,9 +32,13 @@ class PostsController < ApplicationController
 
   def destroy
     @post = Post.find(params[:id])
-    @post.destroy
-
-    redirect_to user_path(current_user)
+    if authorize_user?(@post) == false
+      flash[:alert] = 'Not authorized'
+      redirect_to post_path(@post)
+    else
+      @post.destroy
+      redirect_to user_path(current_user)
+    end
   end
 
   def show
@@ -43,6 +47,10 @@ class PostsController < ApplicationController
 
   def edit
     @post = Post.find(params[:id])
+    return unless authorize_user?(@post) == false
+
+    flash[:alert] = 'Not authorized'
+    redirect_to post_path(@post)
   end
 
   private
@@ -53,5 +61,9 @@ class PostsController < ApplicationController
 
   def post_update_params
     params.require(:post).permit(:caption)
+  end
+
+  def authorize_user?(post)
+    post.user == current_user
   end
 end

@@ -8,5 +8,5 @@ Rails.application.routes.draw do
   end
   resources :stories, except: %i[edit update]
   resources :users, only: %i[show index]
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  resources :likes, only: %i[create destroy]
 end

@@ -5,6 +5,7 @@ class Post < ApplicationRecord
   has_many_attached :images
   validate :validate_images_count, :validate_image_presence, :validate_image_type
   has_many :comments, dependent: :destroy
+  has_many :likes, dependent: :destroy
 
   private
 

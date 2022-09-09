@@ -2,7 +2,7 @@
 <% if current_user.image.attached? %>
   <%= image_tag current_user.image.variant(resize: "200x200!") , class: "rounded-circle"%>
 <% else %>
-  <%= image_tag "avatar.jpg", class: "rounded-circle", style: "width: 20%"%>
+  <%= image_tag "avatar.jpg", class: "rounded-circle", style: "width: 10%"%>
 <% end %>
 <h2> <%= current_user.name %> </h2>
 <% @posts.each do |post| %>

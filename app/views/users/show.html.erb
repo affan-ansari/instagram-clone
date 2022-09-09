@@ -1,9 +1,9 @@
 <h1>Profile page</h1>
 <% if current_user.image.attached? %>
-  <%= image_tag(current_user.image) %>
+  <%= image_tag current_user.image.variant(resize: "200x200!") , class: "rounded-circle"%>
 <% end %>
 <h2> <%= current_user.name %> </h2>
 <% @posts.each do |post| %>
-  <%= render partial: "post",  object: post %>
+  <%= render partial: "posts/post",  object: post %>
 <% end %>
 <%= link_to 'New Post', new_post_path, class: 'btn btn-success' %>

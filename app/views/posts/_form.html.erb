@@ -11,7 +11,7 @@
   <% end %>
   <%= form.label :caption, "Caption"%> <br>
   <%= form.text_area :caption %> <br>
-  <% if params['action'] == 'new' %>
+  <% if ["new", "create"].include? params['action']%>
     <%= form.label :images, "Images"%> <br>
     <%= form.file_field :images, multiple: true %>
   <% end %>

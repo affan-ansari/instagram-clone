@@ -21,7 +21,11 @@ class CommentsController < ApplicationController
   def destroy
     @post = Post.find(params[:post_id])
     @comment = @post.comments.find(params[:id])
-    @comment.destroy
+    if authorize_user_for_delete?(@comment) == false
+      flash[:alert] = 'Not authorized'
+    else
+      @comment.destroy
+    end
     redirect_to post_path(@post)
   end
 
@@ -29,5 +33,13 @@ class CommentsController < ApplicationController
 
   def comment_params
     params.require(:comment).permit(:body, :user)
+  end
+
+  def authorize_user_for_delete?(comment)
+    comment.post.user == current_user || comment.user == current_user
+  end
+
+  def authorize_user_for_edit?(comment)
+    comment.user == current_user
   end
 end

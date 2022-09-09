@@ -12,5 +12,5 @@
   <%= link_to 'Back', user_path(current_user) %>
 <% else %>
   <%= link_to 'Back', posts_path %>
-<% end %>
+<% end %> <br>
 <%= link_to 'New Comment', new_post_comment_path(@post), class: 'btn btn-success' %>

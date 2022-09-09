@@ -1,0 +1,7 @@
+<h3> <%= link_to "Story: #{story.id}", story_path(story) %> </h3>
+<%# if story.user == current_user %>
+<%= link_to 'Destroy', story_path(story),
+            method: :delete,
+            data: { confirm: 'Are you sure?' } %></td>
+<%# end %>
+<hr>

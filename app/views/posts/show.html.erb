@@ -2,7 +2,7 @@
 <P><%= @post.caption %></P>
 <br>
 <% @post.images.each do |image| %>
-  <%= image_tag(image) %>
+  <%= image_tag image.variant(resize: "500x500") %>
 <% end %>
 <b>Likes: <%= @post.likes %></b> <br>
 <%= link_to 'Edit', edit_post_path(@post) %> |

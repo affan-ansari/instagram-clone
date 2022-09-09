@@ -1,5 +1,4 @@
 <h1>Posts</h1>
-<%# render partial: "post", collection: @posts, spacer_template: "post_ruler" %>
 <% @posts.each do |post| %>
   <%= render partial: "post",  object: post %>
 <% end %>

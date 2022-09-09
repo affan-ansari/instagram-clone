@@ -3,7 +3,7 @@
     <%= post.user.name %>
   </div>
   <div class="card-body">
-    <%= image_tag post.images.first, class: "card-img-top" %>
+    <%= render "carousel", post: post %>
     <div class="card-text">
       <%= post.caption %>
     </div>

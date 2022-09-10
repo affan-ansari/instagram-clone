@@ -14,6 +14,7 @@ class PostsController < ApplicationController
     @post = current_user.posts.new(post_params)
 
     if @post.save
+      flash[:notice] = 'Post was successfully created'
       redirect_to @post
     else
       render 'new'
@@ -39,6 +40,7 @@ class PostsController < ApplicationController
       redirect_to post_path(@post)
     else
       @post.destroy
+      flash[:notice] = 'Post was successfully destroyed'
       redirect_to user_path(current_user)
     end
   end

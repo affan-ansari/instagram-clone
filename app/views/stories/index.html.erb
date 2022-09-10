@@ -1,6 +1,6 @@
-<h1>Stories</h1>
-<%# render partial: "post", collection: @posts, spacer_template: "post_ruler" %>
-<% @stories.each do |story| %>
-  <%= render partial: "story",  object: story %>
-<% end %>
-<%= link_to 'New Story', new_story_path, class: 'btn btn-success' %>
+<div class="container">
+  <% @stories.each do |story| %>
+    <%= render partial: "story",  object: story %>
+  <% end %>
+  <%= link_to 'New Story', new_story_path, class: 'btn btn-success' %>
+</div>

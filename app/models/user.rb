@@ -12,4 +12,15 @@ class User < ApplicationRecord
   has_many :stories, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
+
+  has_many :followings, dependent: :destroy
+  has_many :followers, through: :followings
+
+  has_many :inverse_followings,
+           class_name: 'Following',
+           foreign_key: 'follower_id',
+           dependent: :destroy
+
+  # This accesses the user through the relationship object.
+  has_many :follows, through: :inverse_followings, source: :user, dependent: :destroy
 end

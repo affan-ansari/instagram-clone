@@ -9,4 +9,5 @@ Rails.application.routes.draw do
   resources :stories, except: %i[edit update]
   resources :users, only: %i[show index]
   resources :likes, only: %i[create destroy]
+  resources :followings, only: %i[create destroy]
 end

@@ -3,7 +3,7 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!
   def index
-    @posts = Post.where.not(user: current_user)
+    @posts = Post.where(user: current_user.follows)
   end
 
   def new

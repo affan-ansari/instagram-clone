@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   def show
     @user = User.find(params[:id])
-    @posts = Post.where(user: current_user)
+    @posts = Post.where(user: @user)
   end
 
   def index

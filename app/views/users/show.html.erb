@@ -1,11 +1,29 @@
 <h1>Profile page</h1>
-<% if current_user.image.attached? %>
-  <%= image_tag current_user.image.variant(resize: "200x200!") , class: "rounded-circle"%>
+<% if @user.image.attached? %>
+  <%= image_tag @user.image.variant(resize: "200x200!") , class: "rounded-circle"%>
 <% else %>
   <%= image_tag "avatar.jpg", class: "rounded-circle", style: "width: 10%"%>
 <% end %>
-<h2> <%= current_user.name %> </h2>
+<h2> <%= @user.name %> </h2>
+<% following = @user.followings.find_by(user_id: @user.id, follower_id: current_user.id) %>
+<% if following.nil? %>
+  <%= button_to "Follow", followings_path, params: { user_id: @user.id }, method: :post, remote: true, class: "btn btn-outline-primary mt-1" %>
+<% else %>
+  <%= button_to "Unfollow", following_path(following), method: :delete, params: { user_id: @user.id }, class: "btn btn-outline-danger mt-1" %>
+<% end %>
+<h3>Followers</h3>
+<% @user.followers.each do |f| %>
+  <%= f.name %>
+  <br>
+<% end %>
+<h3>Following</h3>
+<% @user.follows.each do |f| %>
+  <%= f.name %>
+  <br>
+<% end %>
 <% @posts.each do |post| %>
   <%= render partial: "posts/post",  object: post %>
 <% end %>
-<%= link_to 'New Post', new_post_path, class: 'btn btn-success' %>
+<% if @user == current_user %>
+  <%= link_to 'New Post', new_post_path, class: 'btn btn-success' %> <br>
+<% end %>

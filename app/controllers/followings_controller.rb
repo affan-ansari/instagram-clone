@@ -1,17 +1,20 @@
 class FollowingsController < ApplicationController
   def create
-    @following = current_user.followings.build(follower_id: params[:follower_id])
+    @user = User.find(params[:user_id])
+    @following = @user.followings.build(follower: current_user)
     if @following.save
-      flash[:notice] = 'Successfully created Follow'
+      flash[:notice] = 'Successfully Followed'
     else
       flash[:alert] = @following.errors.full_messages.to_sentence
     end
-    redirect_to users_path
+    redirect_to @user
   end
 
   def destroy
-    puts 'Follow create action------------------------'
-    flash[:notice] = 'Successfully destroyed Follow'
-    redirect_to 'users'
+    user = User.find(params[:user_id])
+    @following = user.followings.find_by(id: params[:id])
+    @following.destroy
+    flash[:notice] = 'Successfully Unfollowed'
+    redirect_to user
   end
 end

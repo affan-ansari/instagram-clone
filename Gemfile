@@ -41,6 +41,9 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # Authentication
 gem 'devise'
 
+# Searching
+gem 'ransack'
+
 # Bootstrap
 gem 'bootstrap'
 gem 'bootstrap-sass'

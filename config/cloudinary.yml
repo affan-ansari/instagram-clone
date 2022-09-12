@@ -1,0 +1,19 @@
+---
+development:
+  cloud_name: instagram-clone-affan
+  api_key: "761253766228814"
+  api_secret: "-FKi_iNTnfzpYGUif7JSerxOpDY"
+  enhance_image_tag: true
+  static_file_support: false
+production:
+  cloud_name: instagram-clone-affan
+  api_key: "761253766228814"
+  api_secret: "-FKi_iNTnfzpYGUif7JSerxOpDY"
+  enhance_image_tag: true
+  static_file_support: true
+test:
+  cloud_name: instagram-clone-affan
+  api_key: "761253766228814"
+  api_secret: "-FKi_iNTnfzpYGUif7JSerxOpDY"
+  enhance_image_tag: true
+  static_file_support: false

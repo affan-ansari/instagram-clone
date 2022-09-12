@@ -44,6 +44,9 @@ gem 'devise'
 # Searching
 gem 'ransack'
 
+# Images on cloud
+gem 'cloudinary'
+
 # Bootstrap
 gem 'bootstrap'
 gem 'bootstrap-sass'

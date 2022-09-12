@@ -2,12 +2,12 @@
   <div class="carousel-inner">
     <div class="carousel-item active">
       <%# <img class="d-block w-100" src="..." alt="First slide"> %>
-      <%= image_tag post.images.first, class: "card-img-top" %>
+      <%= cl_image_tag post.images.first.key, class: "card-img-top" %>
     </div>
     <% post.images.each_with_index do |image, i| %>
       <% if i > 0 %>
         <div class="carousel-item">
-          <%= image_tag post.images[i], class: "card-img-top" %>
+          <%= cl_image_tag post.images[i].key, class: "card-img-top" %>
         </div>
       <% end %>
     <% end %>

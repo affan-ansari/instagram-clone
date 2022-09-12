@@ -2,16 +2,16 @@
 
 class FollowingsController < ApplicationController
   def create
-    @user = User.find(params[:user_id])
-    @following = @user.followings.build(follower: current_user)
+    user = User.find(params[:user_id])
+    following = user.followings.build(follower: current_user)
 
-    if @following.save
+    if following.save
       flash[:notice] = 'Successfully Followed'
     else
-      flash[:alert] = @following.errors.full_messages.to_sentence
+      flash[:alert] = following.errors.full_messages.to_sentence
     end
 
-    redirect_to @user
+    redirect_to user
   end
 
   def destroy

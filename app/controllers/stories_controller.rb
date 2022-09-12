@@ -25,8 +25,11 @@ class StoriesController < ApplicationController
 
   def destroy
     @story = Story.find(params[:id])
+    authorize @story
+
     @story.destroy
 
+    flash[:notice] = 'Story destroyed successfully'
     redirect_to stories_path
   end
 

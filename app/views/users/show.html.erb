@@ -20,8 +20,7 @@
 <% end %>
 <h3>Following</h3>
 <% @user.follows.each do |f| %>
-  <%= f.name %>
-  <br>
+  <p><%= f.name %></p>
 <% end %>
 <% @posts.each do |post| %>
   <%= render partial: "posts/post",  object: post %>

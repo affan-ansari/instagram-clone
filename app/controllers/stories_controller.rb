@@ -2,6 +2,7 @@
 
 class StoriesController < ApplicationController
   before_action :authenticate_user!
+
   def index
     @stories = Story.all
   end
@@ -15,6 +16,7 @@ class StoriesController < ApplicationController
 
     if @story.save
       StoriesCleanupJob.set(wait: 24.hours).perform_later(@story)
+
       redirect_to @story
     else
       render 'new'

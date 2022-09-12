@@ -35,11 +35,13 @@ class PostsController < ApplicationController
 
   def destroy
     @post = Post.find(params[:id])
+
     if authorize_user?(@post) == false
       flash[:alert] = 'Not authorized'
       redirect_to post_path(@post)
     else
       @post.destroy
+
       flash[:notice] = 'Post was successfully destroyed'
       redirect_to user_path(current_user)
     end
@@ -51,6 +53,7 @@ class PostsController < ApplicationController
 
   def edit
     @post = Post.find(params[:id])
+
     return unless authorize_user?(@post) == false
 
     flash[:alert] = 'Not authorized'

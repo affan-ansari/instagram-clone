@@ -1,5 +1,4 @@
 <p>
-  <%# image_tag comment.user.image.variant(resize: "50x50") %>
   <strong><%= comment.user.name %>:</strong>
   <%= comment.body %> <br>
   <% if comment.user == current_user %>
@@ -10,6 +9,5 @@
                method: :delete,
                data: { confirm: 'Are you sure?' } %>
   <% end %>
-</p>
 </p>
 <hr>

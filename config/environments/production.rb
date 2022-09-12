@@ -37,6 +37,18 @@ Rails.application.configure do
   # config.action_controller.asset_host = 'http://assets.example.com'
   host = 'https://instagram-clone-affan.herokuapp.com/'
   config.action_mailer.default_url_options = { host: host }
+  config.action_mailer.perform_caching = false
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.gmail.com',
+    port: 587,
+    domain: 'gmail.com',
+    user_name: 'affanarif74@gmail.com',
+    password: 'enhhtqtvhooafzgm',
+    authentication: 'plain',
+    enable_starttls_auto: true
+  }
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX

@@ -23,6 +23,7 @@ class PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id])
+    authorize @post
 
     if @post.update(post_update_params)
       flash[:notice] = 'Post was successfully updated'
@@ -35,16 +36,12 @@ class PostsController < ApplicationController
 
   def destroy
     @post = Post.find(params[:id])
+    authorize @post
 
-    if authorize_user?(@post) == false
-      flash[:alert] = 'Not authorized'
-      redirect_to post_path(@post)
-    else
-      @post.destroy
+    @post.destroy
 
-      flash[:notice] = 'Post was successfully destroyed'
-      redirect_to user_path(current_user)
-    end
+    flash[:notice] = 'Post was successfully destroyed'
+    redirect_to user_path(current_user)
   end
 
   def show
@@ -53,11 +50,7 @@ class PostsController < ApplicationController
 
   def edit
     @post = Post.find(params[:id])
-
-    return unless authorize_user?(@post) == false
-
-    flash[:alert] = 'Not authorized'
-    redirect_to post_path(@post)
+    authorize @post
   end
 
   private
@@ -68,9 +61,5 @@ class PostsController < ApplicationController
 
   def post_update_params
     params.require(:post).permit(:caption)
-  end
-
-  def authorize_user?(post)
-    post.user == current_user
   end
 end

@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class Post < ApplicationRecord
+  validate :validate_images_count, :validate_image_presence, :validate_image_type
+
   belongs_to :user
   has_many_attached :images
-  validate :validate_images_count, :validate_image_presence, :validate_image_type
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
 

@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class Story < ApplicationRecord
+  validate :validate_image_presence, :validate_image_type
+
   belongs_to :user
   has_one_attached :image
-  validate :validate_image_presence, :validate_image_type
 
   private
 

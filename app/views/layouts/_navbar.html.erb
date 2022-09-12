@@ -14,12 +14,6 @@
       <li class="nav-item active">
         <%= link_to 'Users', users_path , class: 'nav-link'%>
       </li>
-      <%# <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
-      </li> %>
     </ul>
     <% if  user_signed_in? %>
       <%= render "users/search_form" %>

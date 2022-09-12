@@ -11,7 +11,8 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:name, :email, :password) }
 
     devise_parameter_sanitizer.permit(:account_update) do |u|
- u.permit(:name, :email, :password, :current_password, :image) end
+      u.permit(:name, :email, :password, :current_password, :image)
+    end
   end
 
   def set_search
@@ -20,7 +21,6 @@ class ApplicationController < ActionController::Base
 
   private
 
-  # Overwriting the sign_out redirect path method
   def after_sign_out_path_for(_resource_or_scope)
     new_user_session_path
   end

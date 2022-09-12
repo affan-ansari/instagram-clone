@@ -6,10 +6,12 @@
 <% end %>
 <h2> <%= @user.name %> </h2>
 <% following = @user.followings.find_by(user_id: @user.id, follower_id: current_user.id) %>
-<% if following.nil? %>
-  <%= button_to "Follow", followings_path, params: { user_id: @user.id }, method: :post, remote: true, class: "btn btn-outline-primary mt-1" %>
-<% else %>
-  <%= button_to "Unfollow", following_path(following), method: :delete, params: { user_id: @user.id }, class: "btn btn-outline-danger mt-1" %>
+<% if @user != current_user %>
+  <% if following.nil? %>
+    <%= button_to "Follow", followings_path, params: { user_id: @user.id }, method: :post, remote: true, class: "btn btn-outline-primary mt-1" %>
+  <% else %>
+    <%= button_to "Unfollow", following_path(following), method: :delete, params: { user_id: @user.id }, class: "btn btn-outline-danger mt-1" %>
+  <% end %>
 <% end %>
 <h3>Followers</h3>
 <% @user.followers.each do |f| %>

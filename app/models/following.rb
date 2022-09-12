@@ -3,6 +3,7 @@
 class Following < ApplicationRecord
   validates :user_id, uniqueness: { scope: :follower_id }
   validate :user_can_not_be_self_follower
+
   belongs_to :user
   belongs_to :follower, class_name: 'User'
 

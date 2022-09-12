@@ -3,7 +3,7 @@
     <%= @story.user.name %>
   </div>
   <div class="card-body">
-    <%= image_tag @story.image, class: "card-img-top" %>
+    <%= cl_image_tag @story.image.key, class: "card-img-top" %>
   </div>
   <div class="card-footer">
     <%= @story.caption %>

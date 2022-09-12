@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddFollowerRefToFollowings < ActiveRecord::Migration[5.2]
   def change
     add_reference :followings, :follower, references: :users, foreign_key: { to_table: :users }

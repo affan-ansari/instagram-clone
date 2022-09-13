@@ -35,6 +35,7 @@ class StoriesController < ApplicationController
 
   def show
     @story = Story.find(params[:id])
+    authorize @story
   end
 
   private

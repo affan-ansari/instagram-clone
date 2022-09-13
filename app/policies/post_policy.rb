@@ -8,6 +8,11 @@ class PostPolicy
     @post = post
   end
 
+  def show?
+    follower = post.user.followers.find_by(id: @user.id)
+    true if @post.user == @user || @post.user.is_public || !follower.nil?
+  end
+
   def update?
     @post.user == @user
   end

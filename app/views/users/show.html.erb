@@ -8,6 +8,7 @@
         <%= image_tag "avatar.jpg", class: "rounded-circle", style: "width: 50%"%>
       <% end %>
       <h2> <%= @user.name %> </h2>
+      <b> <%= profile_status(@user) %></b>
     </div>
     <div class="col-4">
       <h3>Followers</h3>

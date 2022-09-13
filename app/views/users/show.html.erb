@@ -8,6 +8,7 @@
         <%= image_tag "avatar.jpg", class: "rounded-circle", style: "width: 50%"%>
       <% end %>
       <h2> <%= @user.name %> </h2>
+      <b> <%= profile_status(@user) %></b>
     </div>
     <div class="col-4">
       <h3>Followers</h3>
@@ -24,20 +25,26 @@
     </div>
   </div>
   <div class="row">
-    <div class="col">
-      <% following = @user.followings.find_by(user_id: @user.id, follower_id: current_user.id) %>
-      <% if @user != current_user %>
-        <% if following.nil? %>
+    <% if @user != current_user %>
+      <div class="col">
+        <% if @following.nil? %>
           <%= button_to "Follow", followings_path, params: { user_id: @user.id }, method: :post, remote: true, class: "btn btn-outline-primary mt-1 form-control" %>
         <% else %>
-          <%= button_to "Unfollow", following_path(following), method: :delete, params: { user_id: @user.id }, class: "btn btn-outline-danger mt-1 form-control" %>
+          <%= button_to "Unfollow", following_path(@following), method: :delete, params: { user_id: @user.id }, class: "btn btn-outline-danger mt-1 form-control" %>
         <% end %>
-      <% else %>
+      </div>
+    <% else %>
+      <div class="col-6">
         <%= link_to 'New Post', new_post_path, class: 'btn btn-success form-control' %>
-      <% end %>
-    </div>
+      </div>
+      <div class="col-6">
+        <%= link_to 'Edit Profile', edit_user_registration_path, class: 'btn btn-primary form-control' %>
+      </div>
+    <% end %>
   </div>
 </div>
-<% @posts.each do |post| %>
-  <%= render partial: "posts/post",  object: post %>
+<% if policy(@user).show_posts? %>
+  <% @posts.each do |post| %>
+    <%= render partial: "posts/post",  object: post %>
+  <% end %>
 <% end %>

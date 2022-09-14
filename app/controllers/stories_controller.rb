@@ -4,7 +4,7 @@ class StoriesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @stories = Story.all
+    @stories = Story.order('user_id, created_at').all.includes(:user)
   end
 
   def new

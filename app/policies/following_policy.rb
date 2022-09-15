@@ -9,6 +9,6 @@ class FollowingPolicy
   end
 
   def destroy?
-    @following.follower == @user
+    @following.follower == @user || @following.user == @user
   end
 end

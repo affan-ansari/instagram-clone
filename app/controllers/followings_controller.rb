@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class FollowingsController < ApplicationController
+  before_action :authenticate_user!
+
   def create
     user = User.find(params[:user_id])
     following = user.followings.build(follower: current_user)
@@ -17,8 +19,9 @@ class FollowingsController < ApplicationController
 
   def destroy
     user = User.find(params[:user_id])
-    following = user.followings.find_by(id: params[:id])
-    following.destroy
+    @following = user.followings.find_by(id: params[:id])
+    authorize @following
+    @following.destroy
 
     flash[:notice] = 'Successfully Unfollowed'
     redirect_to user
@@ -36,8 +39,9 @@ class FollowingsController < ApplicationController
   end
 
   def index
-    # TODO: SHOW ONLY FOR LOGGEED IN USER
     user = User.find(params[:user_id])
+    authorize user, :show_followings?
+
     @followings = user.followings.all
   end
 end

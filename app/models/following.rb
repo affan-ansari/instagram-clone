@@ -10,4 +10,8 @@ class Following < ApplicationRecord
   def user_can_not_be_self_follower
     errors.add(:follower_id, 'User cannot be self-follower') if user_id == follower_id
   end
+
+  def assign_accept_status(user)
+    self.is_accepted = true if user.is_public
+  end
 end

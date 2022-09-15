@@ -1,30 +1,37 @@
 # frozen_string_literal: true
 
 class FollowingsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, :fetch_user
 
   def create
-    user = User.find(params[:user_id])
-    following = user.followings.build(follower: current_user)
-    following.assign_accept_status(user)
+    following = @user.followings.build(follower: current_user)
+    following.assign_accept_status(@user)
 
     if following.save
-      flash[:notice] = 'Successfully Followed'
+      flash[:notice] = if @user.is_public
+                         'Successfully Followed'
+                       else
+                         'Successfully created Request'
+                       end
+
     else
       flash[:alert] = following.errors.full_messages.to_sentence
     end
 
-    redirect_to user
+    redirect_to @user
   end
 
   def destroy
-    user = User.find(params[:user_id])
-    @following = user.followings.find_by(id: params[:id])
+    @following = @user.followings.find_by(id: params[:id])
     authorize @following
     @following.destroy
 
-    flash[:notice] = 'Successfully Unfollowed'
-    redirect_to user
+    flash[:notice] = if @following.is_accepted
+                       'Successfully Unfollowed'
+                     else
+                       'Successfully destroyed request'
+                     end
+    redirect_to @user
   end
 
   def update
@@ -39,9 +46,14 @@ class FollowingsController < ApplicationController
   end
 
   def index
-    user = User.find(params[:user_id])
-    authorize user, :show_followings?
+    authorize @user, :show_followings?
 
-    @followings = user.followings.all
+    @followings = @user.followings.all
+  end
+
+  private
+
+  def fetch_user
+    @user = User.find(params[:user_id])
   end
 end

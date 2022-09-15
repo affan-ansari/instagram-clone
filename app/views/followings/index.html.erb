@@ -1,0 +1,25 @@
+<div class="container">
+  <h2 class="text-center">Followings</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Users</th>
+        <th scope="col">Followers</th>
+        <th scope="col">Status</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @followings.each do |following| %>
+        <tr>
+          <th scope="row"><%= following.id %></th>
+          <td> <%= following.user.name %> </td>
+          <td> <%= following.follower.name %> </td>
+          <td> <%= following.is_accepted %> </td>
+          <td> <%= button_to "Accept", user_following_path(following.user,following), method: :patch, class: "btn btn-outline-primary mt-1" %> </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -17,7 +17,11 @@
           <td> <%= following.user.name %> </td>
           <td> <%= following.follower.name %> </td>
           <td> <%= following.is_accepted %> </td>
-          <td> <%= button_to "Accept", user_following_path(following.user,following), method: :patch, class: "btn btn-outline-primary mt-1" %> </td>
+          <% if following.is_accepted %>
+            <td> <%= button_to "Remove", user_following_path(@user, following), method: :delete, class: "btn btn-outline-danger mt-1" %> </td>
+          <% else %>
+            <td> <%= button_to "Accept", user_following_path(following.user,following), method: :patch, class: "btn btn-outline-primary mt-1" %> </td>
+          <% end %>
         </tr>
       <% end %>
     </tbody>

@@ -11,7 +11,11 @@
       <b> <%= profile_status(@user) %></b>
     </div>
     <div class="col-4">
-      <h3>Followers</h3>
+      <% if @user == current_user %>
+        <h3><%= link_to "Followers", user_followings_path(current_user) %></h3>
+      <% else %>
+        <h3>Followers</h3>
+      <% end %>
       <% get_followers(@user).each do |f| %>
         <%= f.name %>
         <br>

@@ -9,7 +9,7 @@ class UserPolicy
   end
 
   def show_posts?
-    follower = @accessed_user.followers.find_by(id: @user.id)
-    @accessed_user == @user || @accessed_user.is_public || !follower.nil?
+    following = accessed_user.followings.find_by(follower_id: @user.id, is_accepted: true)
+    @accessed_user == @user || @accessed_user.is_public || !following.nil?
   end
 end

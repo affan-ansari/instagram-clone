@@ -9,8 +9,10 @@
     </div>
     <hr>
     <%= link_to 'New Comment', new_post_comment_path(@post), class: 'btn btn-success' %>
-    <%= render "likes/like", object: @post %>
-    Likes: <%= @post.likes.count %>
+    <div class="like_buttons_<%= @post.id %>">
+      <%= render "likes/like", object: @post %>
+    </div>
+    <p id="likes_count_<%= @post.id %>"> Likes: <%= @post.likes.count %> </p>
   </div>
   <div class="card-footer">
     <% if @post.user == current_user %>

@@ -5,8 +5,6 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @posts = Post.where(user: @user)
-    @following = @user.followings.find_by(user_id: @user.id, follower_id: current_user.id)
   end
 
   def index

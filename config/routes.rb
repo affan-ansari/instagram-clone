@@ -8,8 +8,10 @@ Rails.application.routes.draw do
     resources :comments, except: %i[show index]
   end
 
+  resources :users, only: %i[show index] do
+    resources :followings, except: %i[edit show new]
+  end
+
   resources :stories, except: %i[edit update]
-  resources :users, only: %i[show index]
   resources :likes, only: %i[create destroy]
-  resources :followings, only: %i[create destroy]
 end

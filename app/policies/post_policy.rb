@@ -9,8 +9,8 @@ class PostPolicy
   end
 
   def show?
-    follower = @post.user.followers.find_by(id: @user.id)
-    true if @post.user == @user || @post.user.is_public || !follower.nil?
+    following = @post.user.followings.find_by(follower_id: @user.id, is_accepted: true)
+    @post.user == @user || @post.user.is_public || !following.nil?
   end
 
   def update?

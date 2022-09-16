@@ -3,7 +3,8 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!
   def index
-    @posts = Post.where(user: current_user.follows)
+    followed_user_ids = Following.where(follower: current_user, is_accepted: true).pluck(:user_id)
+    @posts = Post.where(user: followed_user_ids)
   end
 
   def new

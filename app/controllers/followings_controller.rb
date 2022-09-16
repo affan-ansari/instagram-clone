@@ -9,7 +9,7 @@ class FollowingsController < ApplicationController
 
     if following.save
       flash[:notice] = if @user.is_public
-                         'Successfully Followed'
+                         'Successfully create following'
                        else
                          'Successfully created Request'
                        end
@@ -27,7 +27,7 @@ class FollowingsController < ApplicationController
     @following.destroy
 
     flash[:notice] = if @following.is_accepted
-                       'Successfully Unfollowed'
+                       'Successfully destroyed following'
                      else
                        'Successfully destroyed request'
                      end

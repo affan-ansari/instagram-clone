@@ -3,20 +3,26 @@
 class LikesController < ApplicationController
   def create
     @like = current_user.likes.new(like_params)
-
     flash[:alert] = @like.errors.full_messages.to_sentence unless @like.save
 
-    redirect_to post_path(@like.post)
+    @post = @like.post
+    respond_to do |format|
+      format.html { redirect_to post_path(@like.post) }
+      format.js { render 'update_likes.js.erb' }
+    end
   end
 
   def destroy
     @like = current_user.likes.find(params[:id])
     authorize @like
-    post = @like.post
+    @post = @like.post
 
     @like.destroy
-
-    redirect_to post
+    respond_to do |format|
+      format.html { redirect_to post_path(@like.post) }
+      format.js { render 'update_likes.js.erb' }
+    end
+    # redirect_to @post
   end
 
   private

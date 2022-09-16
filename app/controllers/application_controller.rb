@@ -26,10 +26,6 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def after_sign_out_path_for(_resource_or_scope)
-    new_user_session_path
-  end
-
   def user_not_authorized
     flash[:alert] = 'You are not authorized to perform this action'
     redirect_to(request.referer || root_path)

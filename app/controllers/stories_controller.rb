@@ -4,7 +4,8 @@ class StoriesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @stories = Story.order('user_id, created_at').all.includes(:user)
+    followed_user_ids = Following.where(follower: current_user, is_accepted: true).pluck(:user_id)
+    @stories = Story.where(user: followed_user_ids).order('user_id, created_at').includes(:user)
   end
 
   def new

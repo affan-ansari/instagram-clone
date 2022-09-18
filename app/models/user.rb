@@ -8,6 +8,7 @@ class User < ApplicationRecord
          :confirmable
 
   validates :name, presence: true
+  validate :validate_image_type, on: :update
 
   has_many :posts, dependent: :destroy
   has_one_attached :image, dependent: :destroy
@@ -24,4 +25,14 @@ class User < ApplicationRecord
            dependent: :destroy
 
   has_many :follows, through: :inverse_followings, source: :user, dependent: :destroy
+
+  private
+
+  def validate_image_type
+    return unless image.attached?
+
+    return unless %w[image/png image/jpg image/jpeg].include?(image.content_type) == false
+
+    errors.add(:image, 'File must be an of type jpg, jpeg or png')
+  end
 end

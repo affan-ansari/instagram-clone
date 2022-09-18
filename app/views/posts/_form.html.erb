@@ -19,7 +19,7 @@
     <% if ["new", "create"].include? params['action']%>
       <div class="form-group">
         <%= form.label :images, "Images"%> <br>
-        <%= form.file_field :images, multiple: true %>
+        <%= form.file_field :images, multiple: true, required: true %>
       </div>
     <% end %>
     <div class="actions">

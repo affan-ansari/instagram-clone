@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_16_070049) do
+ActiveRecord::Schema.define(version: 2022_09_18_162336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,9 +37,9 @@ ActiveRecord::Schema.define(version: 2022_09_16_070049) do
   end
 
   create_table "comments", force: :cascade do |t|
-    t.text "body"
-    t.bigint "post_id"
-    t.bigint "user_id"
+    t.text "body", null: false
+    t.bigint "post_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["post_id"], name: "index_comments_on_post_id"
@@ -47,10 +47,10 @@ ActiveRecord::Schema.define(version: 2022_09_16_070049) do
   end
 
   create_table "followings", force: :cascade do |t|
-    t.bigint "user_id"
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "follower_id"
+    t.bigint "follower_id", null: false
     t.boolean "is_accepted", default: false, null: false
     t.index ["follower_id"], name: "index_followings_on_follower_id"
     t.index ["user_id", "follower_id"], name: "index_followings_on_user_id_and_follower_id", unique: true
@@ -58,8 +58,8 @@ ActiveRecord::Schema.define(version: 2022_09_16_070049) do
   end
 
   create_table "likes", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "post_id"
+    t.bigint "user_id", null: false
+    t.bigint "post_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["post_id"], name: "index_likes_on_post_id"
@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(version: 2022_09_16_070049) do
     t.integer "likes", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id"
+    t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(version: 2022_09_16_070049) do
     t.string "caption"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id"
+    t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_stories_on_user_id"
   end
 
@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(version: 2022_09_16_070049) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "name"
+    t.string "name", null: false
     t.boolean "is_public", default: true
     t.string "confirmation_token"
     t.datetime "confirmed_at"

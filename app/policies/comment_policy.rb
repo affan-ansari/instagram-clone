@@ -12,9 +12,7 @@ class CommentPolicy
     comment_owner?
   end
 
-  def edit?
-    comment_owner?
-  end
+  alias edit? update?
 
   def destroy?
     comment_owner? || @comment.post.user == @user

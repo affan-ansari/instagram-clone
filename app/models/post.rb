@@ -22,10 +22,8 @@ class Post < ApplicationRecord
     return unless images.attached?
 
     images.each do |image|
-      if %w[image/png image/jpg image/jpeg].include?(image.content_type) == false
-
-        errors.add(:image, 'File must be an of type jpg, jpeg or png')
-      end
+      errors.add(:image, 'File must be an of type jpg, jpeg or png') if %w[image/png image/jpg
+                                                                           image/jpeg].include?(image.content_type) == false
     end
   end
 end

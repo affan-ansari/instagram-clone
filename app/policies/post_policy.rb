@@ -17,13 +17,8 @@ class PostPolicy
     post_owner?
   end
 
-  def edit?
-    post_owner?
-  end
-
-  def destroy?
-    post_owner?
-  end
+  alias edit? update?
+  alias destroy? update?
 
   private
 

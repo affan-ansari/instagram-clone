@@ -27,7 +27,6 @@ class StoriesController < ApplicationController
   end
 
   def destroy
-    # @story = Story.find(params[:id])
     authorize @story
 
     @story.destroy!
@@ -37,7 +36,6 @@ class StoriesController < ApplicationController
   end
 
   def show
-    # @story = Story.find(params[:id])
     authorize @story
   end
 

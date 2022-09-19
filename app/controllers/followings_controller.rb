@@ -2,6 +2,7 @@
 
 class FollowingsController < ApplicationController
   before_action :authenticate_user!, :fetch_user
+  before_action :fetch_following, only: %i[update destroy]
 
   def create
     following = @user.followings.build(follower: current_user)
@@ -22,9 +23,8 @@ class FollowingsController < ApplicationController
   end
 
   def destroy
-    @following = @user.followings.find_by(id: params[:id])
     authorize @following
-    @following.destroy
+    @following.destroy!
 
     flash[:notice] = if @following.is_accepted
                        'Successfully destroyed following'
@@ -35,12 +35,11 @@ class FollowingsController < ApplicationController
   end
 
   def update
-    following = Following.find(params[:id])
-    following.is_accepted = !following.is_accepted
-    if following.save
+    @following.is_accepted = !@following.is_accepted
+    if @following.save
       flash[:notice] = 'Accepted'
     else
-      flash[:alert] = 'Sad'
+      flash[:alert] = 'Unable to accept'
     end
     redirect_to(request.referer)
   end
@@ -55,5 +54,9 @@ class FollowingsController < ApplicationController
 
   def fetch_user
     @user = User.find(params[:user_id])
+  end
+
+  def fetch_following
+    @following = Following.find(params[:id])
   end
 end

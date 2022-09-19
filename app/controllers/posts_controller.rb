@@ -2,6 +2,8 @@
 
 class PostsController < ApplicationController
   before_action :authenticate_user!
+  before_action :fetch_post, except: %i[index new create]
+
   def index
     followed_user_ids = Following.where(follower: current_user, is_accepted: true).pluck(:user_id)
     @posts = Post.where(user: followed_user_ids)
@@ -23,7 +25,6 @@ class PostsController < ApplicationController
   end
 
   def update
-    @post = Post.find(params[:id])
     authorize @post
 
     if @post.update(post_update_params)
@@ -36,22 +37,19 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post = Post.find(params[:id])
     authorize @post
 
-    @post.destroy
+    @post.destroy!
 
     flash[:notice] = 'Post was successfully destroyed'
     redirect_to user_path(current_user)
   end
 
   def show
-    @post = Post.find(params[:id])
     authorize @post
   end
 
   def edit
-    @post = Post.find(params[:id])
     authorize @post
   end
 
@@ -63,5 +61,9 @@ class PostsController < ApplicationController
 
   def post_update_params
     params.require(:post).permit(:caption)
+  end
+
+  def fetch_post
+    @post = Post.find(params[:id])
   end
 end

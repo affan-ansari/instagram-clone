@@ -10,18 +10,24 @@ class PostPolicy
 
   def show?
     following = @post.user.followings.find_by(follower_id: @user.id, is_accepted: true)
-    @post.user == @user || @post.user.is_public || !following.nil?
+    post_owner? || @post.user.is_public || !following.nil?
   end
 
   def update?
-    @post.user == @user
+    post_owner?
   end
 
   def edit?
-    @post.user == @user
+    post_owner?
   end
 
   def destroy?
+    post_owner?
+  end
+
+  private
+
+  def post_owner?
     @post.user == @user
   end
 end

@@ -22,6 +22,7 @@ class User < ApplicationRecord
   has_many :inverse_followings,
            class_name: 'Following',
            foreign_key: 'follower_id',
+           inverse_of: :followings,
            dependent: :destroy
 
   has_many :follows, through: :inverse_followings, source: :user, dependent: :destroy

@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  rescue_from ActiveRecord::RecordNotDestroyed, with: :record_not_destroyed
 
   protected
 
@@ -33,6 +34,11 @@ class ApplicationController < ActionController::Base
 
   def record_not_found
     flash[:alert] = 'Record does not exist'
+    redirect_to(request.referer || authenticated_root_path)
+  end
+
+  def record_not_destroyed
+    flash[:alert] = 'Record was not destroyed'
     redirect_to(request.referer || authenticated_root_path)
   end
 end

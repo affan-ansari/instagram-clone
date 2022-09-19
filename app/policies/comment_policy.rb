@@ -9,14 +9,20 @@ class CommentPolicy
   end
 
   def update?
-    @comment.user == @user
+    comment_owner?
   end
 
   def edit?
-    @comment.user == @user
+    comment_owner?
   end
 
   def destroy?
-    @comment.user == @user || @comment.post.user == @user
+    comment_owner? || @comment.post.user == @user
+  end
+
+  private
+
+  def comment_owner?
+    @comment.user == @user
   end
 end

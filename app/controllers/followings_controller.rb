@@ -35,7 +35,9 @@ class FollowingsController < ApplicationController
   end
 
   def update
-    @following.is_accepted = !@following.is_accepted
+    @following.is_accepted = params['request_status']
+    flash[:alert] = 'Unable to accept' unless @following.is_accepted
+
     if @following.save
       flash[:notice] = 'Accepted'
     else

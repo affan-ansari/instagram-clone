@@ -12,6 +12,6 @@ class Following < ApplicationRecord
   end
 
   def assign_accept_status(user)
-    self.is_accepted = true if user.is_public
+    self.is_accepted = (user.is_public ? true : false)
   end
 end

@@ -86,4 +86,91 @@ RSpec.describe 'Posts', type: :request do
       end
     end
   end
+
+  describe 'GET /edit' do
+    context 'when user is not signed in' do
+      let!(:user) { create(:user) }
+      let!(:user_post) { create(:post, user: user, caption: 'Test post') }
+
+      it 'returns a failure message' do
+        get post_path(user_post)
+        expect(response.status).to eq(302)
+        expect(flash[:alert]).to eq('You need to sign in or sign up before continuing.')
+      end
+    end
+
+    context 'when user is signed in and is post owner' do
+      let!(:user) { create(:user) }
+      let!(:user_post) { create(:post, user: user, caption: 'Test post') }
+
+      it 'containts caption of post created by followed user and Edit button' do
+        sign_in user
+        get edit_post_path(user_post)
+        expect(response.body).to include('Test post')
+        expect(response.body).to include('Edit')
+        expect(response.status).to eq(200)
+      end
+    end
+
+    context 'when user is signed in and is not post owner' do
+      let!(:user) { create(:user) }
+      let!(:user_post) { create(:post, caption: 'Test post') }
+
+      it 'returns a authorization failure message' do
+        sign_in user
+        get edit_post_path(user_post)
+        expect(response.status).to eq(302)
+        expect(flash[:alert]).to eq('You are not authorized to perform this action')
+      end
+    end
+  end
+
+  describe 'GET /new' do
+    context 'when user is not signed in' do
+      let!(:user) { create(:user) }
+
+      it 'returns a failure message' do
+        get new_post_path
+        expect(response.status).to eq(302)
+        expect(flash[:alert]).to eq('You need to sign in or sign up before continuing.')
+      end
+    end
+
+    context 'when user is signed in' do
+      let!(:user) { create(:user) }
+
+      it 'containts create button for post' do
+        sign_in user
+        get new_post_path
+        expect(response.status).to eq(200)
+        expect(response.body).to include('Create Post')
+      end
+    end
+  end
+
+  describe 'POST /create' do
+    context 'when user is not signed in' do
+      let!(:user) { create(:user) }
+      let!(:user_post) { create(:post, user: user, caption: 'Test post') }
+
+      it 'returns a failure message' do
+        post posts_path(user_post)
+        # byebug
+        expect(response.status).to eq(401)
+        expect(response.body).to eq('You need to sign in or sign up before continuing.')
+      end
+    end
+
+    context 'when user is signed in' do
+      let!(:user) { create(:user) }
+      let!(:user_post) { create(:post, user: user, caption: 'Test post') }
+
+      it 'returns a failure message' do
+        sign_in user
+        post posts_path(user_post)
+        expect(response.status).to eq(200)
+        expect(flash[:notice]).to eq('Post was successfully created')
+      end
+    end
+  end
 end

@@ -155,7 +155,6 @@ RSpec.describe 'Posts', type: :request do
 
       it 'returns a failure message' do
         post posts_path(user_post)
-        # byebug
         expect(response.status).to eq(401)
         expect(response.body).to eq('You need to sign in or sign up before continuing.')
       end
@@ -163,13 +162,114 @@ RSpec.describe 'Posts', type: :request do
 
     context 'when user is signed in' do
       let!(:user) { create(:user) }
+      let!(:post_params) do
+        { caption: 'Test post create action',
+          images: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/avatar.jpg'), 'image/jpg')] }
+      end
+
+      it 'returns a success message' do
+        sign_in user
+
+        post posts_path, params: { post: post_params }
+        expect(response.status).to eq(302)
+        expect(flash[:notice]).to eq('Post was successfully created')
+      end
+
+      it 'returns a failiure message message' do
+        sign_in user
+        post posts_path, params: { post: { caption: 'no image attached' } }
+        expect(response.status).to eq(200)
+        expect(flash[:notice]).to eq('Post was not created')
+      end
+    end
+  end
+
+  describe 'POST /delete' do
+    context 'when user is not signed in' do
+      let!(:user) { create(:user) }
       let!(:user_post) { create(:post, user: user, caption: 'Test post') }
 
       it 'returns a failure message' do
+        delete post_path(user_post)
+        expect(response.status).to eq(302)
+        expect(flash[:alert]).to eq('You need to sign in or sign up before continuing.')
+      end
+    end
+
+    context 'when user is signed in and is post owner' do
+      let!(:user) { create(:user) }
+      let!(:user_post) { create(:post, user: user, caption: 'Test post') }
+
+      it 'returns a success message' do
         sign_in user
-        post posts_path(user_post)
-        expect(response.status).to eq(200)
-        expect(flash[:notice]).to eq('Post was successfully created')
+        delete post_path(user_post)
+        expect(response.status).to eq(302)
+        expect(flash[:notice]).to eq('Post was successfully destroyed')
+      end
+    end
+
+    context 'when user is signed in and is not post owner' do
+      let!(:user) { create(:user) }
+      let!(:user_post) { create(:post) }
+
+      it 'returns a success message' do
+        sign_in user
+        delete post_path(user_post)
+        expect(response.status).to eq(302)
+        expect(flash[:alert]).to eq('You are not authorized to perform this action')
+      end
+    end
+  end
+
+  describe 'PATCH /update' do
+    context 'when user is not signed in' do
+      let!(:user) { create(:user) }
+      let!(:user_post) { create(:post, user: user, caption: 'Test post') }
+      let!(:post_params) do
+        { caption: 'Updated' }
+      end
+
+      it 'returns a failure message' do
+        patch post_path(user_post), params: { post: post_params }
+        expect(response.status).to eq(302)
+        expect(flash[:alert]).to eq('You need to sign in or sign up before continuing.')
+      end
+    end
+
+    context 'when user is signed in and is post owner' do
+      let!(:user) { create(:user) }
+      let!(:user_post) { create(:post, user: user, caption: 'Test post') }
+      let!(:post_params) do
+        { caption: 'Updated' }
+      end
+
+      it 'returns a success message' do
+        sign_in user
+        patch post_path(user_post), params: { post: post_params }
+        expect(response.status).to eq(302)
+        expect(flash[:notice]).to eq('Post was successfully updated')
+      end
+
+      it 'returns a failiure message' do
+        sign_in user
+        patch post_path(user_post), params: { post: user.attributes }
+        expect(response.status).to eq(302)
+        expect(flash[:notice]).to eq('Post was successfully updated')
+      end
+    end
+
+    context 'when user is signed in and is not post owner' do
+      let!(:user) { create(:user) }
+      let!(:user_post) { create(:post) }
+      let!(:post_params) do
+        { caption: 'Updated' }
+      end
+
+      it 'returns a success message' do
+        sign_in user
+        patch post_path(user_post), params: { post: post_params }
+        expect(response.status).to eq(302)
+        expect(flash[:alert]).to eq('You are not authorized to perform this action')
       end
     end
   end

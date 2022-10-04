@@ -2,27 +2,36 @@ require 'rails_helper'
 
 RSpec.describe Following, type: :model do
   describe 'associations' do
-    it { is_expected.to belong_to(:user).class_name('User') }
-    it { is_expected.to belong_to(:follower).class_name('User') }
+    it { is_expected.to belong_to(:user) }
+    it { is_expected.to belong_to(:follower) }
   end
 
   describe 'custom validations' do
-    let(:f1) { create(:following) }
-    let(:f2) { create(:following) }
+    let(:f1) { build(:following) }
+    let(:f2) { build(:following) }
 
-    it 'User and follower are not same' do
-      expect(f1.valid?).to be(true)
+    context 'When User and follower are not same' do
+      it 'is valid' do
+        expect(f1.valid?).to be(true)
+      end
     end
 
-    it 'User and follower are same' do
-      f1.follower = f1.user
-      expect(f1.valid?).to be(false)
+    context 'When user and follower are same' do
+      it 'is not valid' do
+        f1.follower = f1.user
+        expect(f1.valid?).to be(false)
+      end
     end
 
-    it 'User cannot follow more than once' do
-      f2.user = f1.user
-      f2.follower = f1.follower
-      expect(f2.valid?).to be(false)
+    context 'When user cannot follow more than once' do
+      let(:f3) { create(:following) }
+      let(:f4) { create(:following) }
+
+      it 'is not valid' do
+        f4.user = f3.user
+        f4.follower = f3.follower
+        expect(f4.valid?).to be(false)
+      end
     end
   end
 
@@ -30,13 +39,17 @@ RSpec.describe Following, type: :model do
     let(:u1) { build(:user) }
     let(:f1) { build(:following, user: u1) }
 
-    it 'assign_accept_status returns true if user is public' do
-      expect(f1.assign_accept_status(u1)).to be(true)
+    context 'When user is public' do
+      it 'assign_accept_status returns true' do
+        expect(f1.assign_accept_status(u1)).to be(true)
+      end
     end
 
-    it 'assign_accept_status returns false if user is private' do
-      u1.is_public = false
-      expect(f1.assign_accept_status(u1)).to be(false)
+    context 'Whe user is private' do
+      it 'assign_accept_status returns false' do
+        u1.is_public = false
+        expect(f1.assign_accept_status(u1)).to be(false)
+      end
     end
   end
 end

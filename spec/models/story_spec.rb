@@ -10,21 +10,27 @@ RSpec.describe Story, type: :model do
     let(:u1) { build(:user) }
     let(:s1) { build(:story, user: u1) }
 
-    it 'Image exists' do
-      expect(s1.valid?).to be(true)
+    context 'When image exists' do
+      it 'is valid' do
+        expect(s1.valid?).to be(true)
+      end
     end
 
-    it 'Image does not exists' do
-      s1.image.purge
-      expect(s1.valid?).to be(false)
+    context 'When image does not exists' do
+      it 'is not valid' do
+        s1.image.purge
+        expect(s1.valid?).to be(false)
+      end
     end
 
-    it 'File is not an image of png, jpg, jpeg' do
-      s1.image.purge
-      s1.image.attach(
-        io: File.open(Rails.root.join('spec/fixtures/test.pdf')), filename: 'test.pdf'
-      )
-      expect(s1.valid?).to be(false)
+    context 'When file is not an image of png, jpg, jpeg' do
+      it 'is not valid' do
+        s1.image.purge
+        s1.image.attach(
+          io: File.open(Rails.root.join('spec/fixtures/test.pdf')), filename: 'test.pdf'
+        )
+        expect(s1.valid?).to be(false)
+      end
     end
   end
 end

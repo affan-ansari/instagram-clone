@@ -12,35 +12,45 @@ RSpec.describe Post, type: :model do
     let(:u1) { build(:user) }
     let(:p1) { build(:post, user: u1) }
 
-    it 'At least one Image exists' do
-      expect(p1.valid?).to be(true)
-    end
-
-    it 'One or more images do not exist' do
-      p1.images.purge
-      expect(p1.valid?).to be(false)
-    end
-
-    it 'One or more file is not an image of png, jpg, jpeg' do
-      p1.images.purge
-      p1.images.attach(io: File.open(Rails.root.join('spec/fixtures/test.pdf')), filename: 'test.pdf')
-      p1.images.attach(io: File.open(Rails.root.join('spec/fixtures/avatar.jpg')), filename: 'avatar.jpg')
-      expect(p1.valid?).to be(false)
-    end
-
-    it 'One or more file is an image' do
-      p1.images.purge
-      p1.images.attach(io: File.open(Rails.root.join('spec/fixtures/avatar.jpg')), filename: 'avatar.jpg')
-      p1.images.attach(io: File.open(Rails.root.join('spec/fixtures/avatar.jpg')), filename: 'avatar.jpg')
-      expect(p1.valid?).to be(true)
-    end
-
-    it 'more then 10 images attached' do
-      p1.images.purge
-      11.times do
-        p1.images.attach(io: File.open(Rails.root.join('spec/fixtures/avatar.jpg')), filename: 'avatar.jpg')
+    context 'When at least one Image exists' do
+      it 'is valid' do
+        expect(p1.valid?).to be(true)
       end
-      expect(p1.valid?).to be(false)
+    end
+
+    context 'When One or more images do not exist' do
+      it 'is valid' do
+        p1.images.purge
+        expect(p1.valid?).to be(false)
+      end
+    end
+
+    context 'When one or more file is not an image of png, jpg, jpeg' do
+      it 'is not valid' do
+        p1.images.purge
+        p1.images.attach(io: File.open(Rails.root.join('spec/fixtures/test.pdf')), filename: 'test.pdf')
+        p1.images.attach(io: File.open(Rails.root.join('spec/fixtures/avatar.jpg')), filename: 'avatar.jpg')
+        expect(p1.valid?).to be(false)
+      end
+    end
+
+    context 'When one or more file is an image' do
+      it 'is valid' do
+        p1.images.purge
+        p1.images.attach(io: File.open(Rails.root.join('spec/fixtures/avatar.jpg')), filename: 'avatar.jpg')
+        p1.images.attach(io: File.open(Rails.root.join('spec/fixtures/avatar.jpg')), filename: 'avatar.jpg')
+        expect(p1.valid?).to be(true)
+      end
+    end
+
+    context 'When more then 10 images attached' do
+      it 'is not valid' do
+        p1.images.purge
+        11.times do
+          p1.images.attach(io: File.open(Rails.root.join('spec/fixtures/avatar.jpg')), filename: 'avatar.jpg')
+        end
+        expect(p1.valid?).to be(false)
+      end
     end
   end
 end

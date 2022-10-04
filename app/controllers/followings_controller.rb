@@ -9,14 +9,11 @@ class FollowingsController < ApplicationController
     following.assign_accept_status(@user)
 
     if following.save
-      flash[:notice] = if @user.is_public
-                         'Successfully create following'
+      flash[:notice] = if following.is_accepted
+                         'Successfully created following'
                        else
                          'Successfully created Request'
                        end
-
-    else
-      flash[:alert] = following.errors.full_messages.to_sentence
     end
 
     redirect_to @user
@@ -36,14 +33,14 @@ class FollowingsController < ApplicationController
 
   def update
     @following.is_accepted = params['request_status']
-    flash[:alert] = 'Unable to accept' unless @following.is_accepted
-
-    if @following.save
-      flash[:notice] = 'Accepted'
-    else
+    unless @following.is_accepted
       flash[:alert] = 'Unable to accept'
+      redirect_to user_followings_path(@user)
+      return
     end
-    redirect_to(request.referer)
+
+    flash[:notice] = 'Accepted' if @following.save
+    redirect_to user_followings_path(@user)
   end
 
   def index
